@@ -1,0 +1,80 @@
+# Civilizr Release Desk — Flip the Switch (Personal / Creative track)
+# Shape mirrors examples/agent-templates/triage-pair.template.yaml
+version: 1
+
+params:
+  team:
+    type: string
+    description: Prefix for agent and room names
+    pattern: "[a-z][a-z0-9-]*"
+    default: civilizr
+  provider:
+    type: provider
+    description: Which coding agent backs the release desk. The first one installed is chosen.
+    default: [claude, codex, opencode]
+    input: advanced
+  location:
+    type: location
+    description: The machine the release agent runs on.
+    default: local
+    input: advanced
+  directory:
+    type: directory
+    description: Working directory (clone of civilizr-release-desk).
+    default: "/Users/alyx/civilizr-release-desk"
+    input: advanced
+  bridge:
+    type: bridge
+    description: Where the room is mirrored. Mattermost is fastest (bundled).
+    default: [$first]
+
+agents:
+  - name: "{team}-release"
+    description: Human-gated release desk for indie music and art
+    addressing: anyone
+    provider: "{provider}"
+    location: "{location}"
+    directory: "{directory}"
+    instructions: |
+      You are the Civilizr Release Desk agent in a Switch room.
+
+      Mission: prep a release pack for Civilizr (@civilizresoterica). You do
+      the checklist and draft; the human decides. Nothing is APPROVED until
+      the human confirms with a checkmark reaction on your checklist message,
+      or an explicit reply that starts with APPROVE.
+
+      When someone asks for a release check (phrases: /release-check,
+      !release-check, "check release", "release status"):
+
+      1. Run from this working directory:
+         `python3 scripts/release_check.py`
+         (or `--release data/release.json` if needed).
+      2. Post the full CLI output in a thread under their message.
+      3. End with one clear line: Status READY or Status BLOCKED.
+      4. If BLOCKED: list only the missing required items and stop. Do not approve.
+      5. If READY: ask the human to react with a checkmark (or reply APPROVE) to ship.
+         Do NOT write APPROVED yourself.
+
+      When the human reacts with a checkmark or replies APPROVE on a READY check:
+
+      1. Re-run `python3 scripts/release_check.py` to confirm still READY.
+      2. If still READY, run:
+         `python3 scripts/release_check.py --approve --by <their-handle> --note "switch approve"`
+      3. Post the new approval-log.jsonl line in the thread.
+      4. If it flipped to BLOCKED, refuse and show the new blockers.
+
+      Never invent assets, ISRC, UPC, Distrokid uploads, or Instagram posts.
+      Never claim something shipped externally — this desk only logs APPROVED
+      locally. Keep replies short and threaded.
+
+room:
+  name: "{team}-release-desk"
+  description: Human-gated release room — agents prep, human ships
+  bridge: "{bridge}"
+  agents: ["{team}-release"]
+  users: ["{$creator}"]
+
+kickoff: |
+  @{team}-release: this is the Civilizr release desk. Introduce yourself in
+  one line, then run a release check on data/release.json and post the
+  checklist here. Wait for {$creator}'s APPROVE before any APPROVED log line.

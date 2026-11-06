@@ -1,0 +1,27 @@
+{
+  "release_id": "civilizr-2026-11-demo",
+  "artist": "Civilizr",
+  "handle": "@civilizresoterica",
+  "title": "Exit Glitch (demo cut)",
+  "format": "single",
+  "target_date": "2026-11-08",
+  "platforms": ["distrokid", "instagram", "x"],
+  "assets": {
+    "audio_master": {"path": "assets/exit-glitch-master.wav", "present": true},
+    "cover_art": {"path": "assets/exit-glitch-cover.png", "present": true},
+    "lyrics": {"path": "assets/exit-glitch-lyrics.txt", "present": false},
+    "distrokid_metadata": {"path": "assets/distrokid.json", "present": true},
+    "ig_story_frames": {"path": "assets/ig-story/", "present": false}
+  },
+  "metadata": {
+    "isrc": null,
+    "upc": null,
+    "genre": "experimental / glitch",
+    "explicit": false
+  },
+  "caption_seeds": [
+    "new cut from the Exit Glitch desk",
+    "agents prepped the pack, human ships it"
+  ],
+  "notes": "Demo release file for Flip the Switch. Flip lyrics or ig_story_frames to present:true to go READY."
+}
