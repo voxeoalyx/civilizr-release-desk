@@ -11,7 +11,7 @@ checklist + proposed Instagram caption + **READY/BLOCKED**, and only writes
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────────────┐
 │ Mattermost  │◄───►│    Switch    │◄───►│ civilizr-release    │
-│  (or Discord)│     │  room+bridge │     │ agent (Claude/Codex)│
+│ (or Discord)│     │  room+bridge │     │ agent (Claude/Codex)│
 └─────────────┘     └──────────────┘     └──────────┬──────────┘
                                                     │
                                          python3 scripts/release_check.py
